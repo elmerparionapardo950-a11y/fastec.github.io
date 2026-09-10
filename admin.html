@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administrador | Andesur</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+<div id="adminLogin" class="admin-login">
+  <div class="admin-login-card">
+    <p class="kicker">Área privada</p>
+    <h1>Administrador</h1>
+    <p>Ingresa para administrar productos, imágenes, ofertas y datos de contacto.</p>
+    <form id="loginForm">
+      <label>Contraseña<input id="adminPassword" type="password" placeholder="Contraseña" required></label>
+      <button class="btn btn-primary" type="submit">Ingresar</button>
+      <small id="loginError" class="login-error"></small>
+    </form>
+  </div>
+</div>
+
+<div id="adminApp" class="admin-app" hidden>
+  <header class="admin-top">
+    <div class="wrap admin-top-inner">
+      <div><span class="kicker">Panel de control</span><h1>Andesur</h1></div>
+      <div class="admin-actions"><a href="index.html" class="btn btn-ghost">Ver página</a><button id="logoutBtn" class="btn btn-primary">Cerrar sesión</button></div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <div class="wrap">
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="productsTab">Productos</button>
+        <button class="admin-tab" data-tab="companyTab">Empresa</button>
+        <button class="admin-tab" data-tab="backupTab">Respaldo</button>
+      </div>
+
+      <section id="productsTab" class="admin-panel active">
+        <div class="admin-panel-head">
+          <div><p class="kicker">Catálogo</p><h2>Administrar productos</h2><p>Agrega y edita productos, cambia imágenes, precios, ofertas y destacados. También puedes ocultar un producto sin borrarlo.</p></div>
+          <div class="admin-head-actions"><div id="productSummary" class="product-summary"></div><button id="newProductBtn" class="btn btn-primary">+ Nuevo producto</button></div>
+        </div>
+        <div id="adminProductList" class="admin-product-list"></div>
+      </section>
+
+      <section id="companyTab" class="admin-panel">
+        <div class="admin-panel-head"><div><p class="kicker">Información</p><h2>Datos de la empresa</h2><p>Estos datos se muestran en el pie de página y en la sección de contacto.</p></div></div>
+        <form id="companyForm" class="admin-form company-form">
+          <label>Nombre<input name="name" required></label>
+          <label>Correo<input name="email" type="email" required></label>
+          <label>Teléfono<input name="phone" required></label>
+          <label>Dirección<input name="address" required></label>
+          <label class="full">Descripción<textarea name="description" rows="4" required></textarea></label>
+          <div class="full"><button class="btn btn-primary" type="submit">Guardar información</button></div>
+        </form>
+      </section>
+
+      <section id="backupTab" class="admin-panel">
+        <div class="admin-panel-head"><div><p class="kicker">Seguridad</p><h2>Respaldo del contenido</h2><p>Exporta tus productos y configuración para guardarlos. También puedes restaurarlos en este navegador.</p></div></div>
+        <div class="backup-actions">
+          <button id="exportBtn" class="btn btn-primary">Exportar datos</button>
+          <label class="btn btn-ghost file-button">Importar datos<input id="importFile" type="file" accept=".json,application/json" hidden></label>
+          <button id="resetBtn" class="btn btn-danger">Restaurar datos iniciales</button>
+        </div>
+        <p class="admin-note">Importante: esta versión funciona con almacenamiento del navegador (localStorage). Para que los cambios hechos por el administrador se vean automáticamente para todas las personas desde cualquier dispositivo, el sitio necesita un servidor/base de datos y autenticación real.</p>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div id="productModal" class="admin-modal" hidden>
+  <div class="admin-modal-card">
+    <div class="modal-head"><h2 id="modalTitle">Nuevo producto</h2><button id="closeModal" class="modal-close">×</button></div>
+    <form id="productForm" class="admin-form">
+      <input type="hidden" name="id">
+      <label>Nombre del producto<input name="name" required></label>
+      <label>Categoría<input name="category" required></label>
+      <label>Modelo<input name="model" required></label>
+      <label>Precio (S/)<input name="price" placeholder="Ej. 1599"></label>
+      <label>Precio anterior (S/)<input name="oldPrice" placeholder="Ej. 1899"></label>
+      <label>Oferta / etiqueta<input name="offer" placeholder="Ej. -17%"></label>
+      <label class="full">Imagen del producto<input name="imageFile" type="file" accept="image/*"><small>La imagen se guardará en este navegador. También puedes pegar una URL:</small><input name="image" placeholder="https://..."></label>
+      <div id="imagePreview" class="admin-image-preview full"></div>
+      <label class="check-field full"><input name="featured" type="checkbox"> Mostrar como producto destacado en Inicio</label>
+      <div class="modal-actions full"><button type="button" id="cancelProduct" class="btn btn-ghost">Cancelar</button><button type="submit" class="btn btn-primary">Guardar producto</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
