@@ -1,4 +1,3 @@
-
 (function(){
   const data = getSiteData();
   const products = (data.products || []).filter(p => p.active !== false);
@@ -27,9 +26,40 @@
   if(catalog){
     const groups = {};
     products.forEach(p => (groups[p.category] ||= []).push(p));
-    catalog.innerHTML = Object.entries(groups).map(([cat, items]) =>
-      `<section class="catalog-section"><h3 class="catalog-section-title">${esc(cat)}</h3><div class="catalog-grid">${items.map(card).join('')}</div></section>`
+    const categories = Object.keys(groups);
+
+    const filters = document.createElement('div');
+    filters.className = 'category-filters';
+    filters.innerHTML =
+      `<button type="button" class="category-filter active" data-category="all">Todos</button>` +
+      categories.map(cat => `<button type="button" class="category-filter" data-category="${esc(cat)}">${esc(cat)}</button>`).join('');
+
+    const sections = document.createElement('div');
+    sections.className = 'catalog-sections';
+    sections.innerHTML = Object.entries(groups).map(([cat, items]) =>
+      `<section class="catalog-section" data-category="${esc(cat)}">
+        <div class="catalog-section-heading">
+          <h3 class="catalog-section-title">${esc(cat)}</h3>
+          <span class="catalog-count">${items.length} ${items.length === 1 ? 'producto' : 'productos'}</span>
+        </div>
+        <div class="catalog-grid">${items.map(card).join('')}</div>
+      </section>`
     ).join('');
+
+    catalog.innerHTML = '';
+    catalog.appendChild(filters);
+    catalog.appendChild(sections);
+
+    filters.querySelectorAll('.category-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        filters.querySelectorAll('.category-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const selected = btn.dataset.category;
+        sections.querySelectorAll('.catalog-section').forEach(section => {
+          section.hidden = selected !== 'all' && section.dataset.category !== selected;
+        });
+      });
+    });
   }
 
   const featured = document.getElementById('featuredProducts');

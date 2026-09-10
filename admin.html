@@ -35,6 +35,7 @@
     <div class="wrap">
       <div class="admin-tabs">
         <button class="admin-tab active" data-tab="productsTab">Productos</button>
+        <button class="admin-tab" data-tab="servicesTab">Servicios</button>
         <button class="admin-tab" data-tab="companyTab">Empresa</button>
         <button class="admin-tab" data-tab="backupTab">Respaldo</button>
       </div>
@@ -45,6 +46,14 @@
           <div class="admin-head-actions"><div id="productSummary" class="product-summary"></div><button id="newProductBtn" class="btn btn-primary">+ Nuevo producto</button></div>
         </div>
         <div id="adminProductList" class="admin-product-list"></div>
+      </section>
+
+      <section id="servicesTab" class="admin-panel">
+        <div class="admin-panel-head">
+          <div><p class="kicker">Catálogo de servicios</p><h2>Administrar servicios</h2><p>Agrega, edita y organiza los servicios por categorías. También puedes ocultarlos sin eliminarlos.</p></div>
+          <div class="admin-head-actions"><div id="serviceSummary" class="product-summary"></div><button id="newServiceBtn" class="btn btn-primary">+ Nuevo servicio</button></div>
+        </div>
+        <div id="adminServiceList" class="admin-product-list"></div>
       </section>
 
       <section id="companyTab" class="admin-panel">
@@ -70,6 +79,19 @@
       </section>
     </div>
   </main>
+</div>
+
+<div id="serviceModal" class="admin-modal" hidden>
+  <div class="admin-modal-card">
+    <div class="modal-head"><h2 id="serviceModalTitle">Nuevo servicio</h2><button id="closeServiceModal" class="modal-close">×</button></div>
+    <form id="serviceForm" class="admin-form">
+      <label>Nombre del servicio<input name="name" required></label>
+      <label>Categoría<input name="category" required placeholder="Ej. Instalación y puesta en marcha"></label>
+      <label>Ícono<input name="icon" maxlength="2" placeholder="✓"></label>
+      <label class="full">Descripción<textarea name="description" rows="4" required></textarea></label>
+      <div class="modal-actions full"><button type="button" id="cancelService" class="btn btn-ghost">Cancelar</button><button type="submit" class="btn btn-primary">Guardar servicio</button></div>
+    </form>
+  </div>
 </div>
 
 <div id="productModal" class="admin-modal" hidden>

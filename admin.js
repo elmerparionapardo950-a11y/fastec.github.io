@@ -9,7 +9,7 @@
 
   function loggedIn(){ return sessionStorage.getItem('andesur_admin') === '1'; }
   function showApp(){
-    login.hidden = true; app.hidden = false; renderProducts(); fillCompany();
+    login.hidden = true; app.hidden = false; renderProducts(); renderServices(); fillCompany();
   }
   if(loggedIn()) showApp();
 
@@ -81,6 +81,55 @@
     });
   }
 
+  let editingServiceId = null;
+
+  function renderServices(){
+    const box = document.getElementById('adminServiceList');
+    if(!box) return;
+    const services = data.services || [];
+    const visibles = services.filter(s => s.active !== false).length;
+    const ocultos = services.length - visibles;
+    const summary = document.getElementById('serviceSummary');
+    if(summary) summary.innerHTML =
+      `<span class="summary-chip"><b>${services.length}</b> servicios</span>` +
+      `<span class="summary-chip summary-ok"><b>${visibles}</b> visibles</span>` +
+      `<span class="summary-chip summary-off"><b>${ocultos}</b> ocultos</span>`;
+
+    const groups = {};
+    services.forEach(s => (groups[s.category] ||= []).push(s));
+
+    box.innerHTML = Object.entries(groups).map(([category, items]) => `
+      <div class="admin-service-group">
+        <div class="catalog-section-heading">
+          <h3>${esc(category)}</h3><span class="catalog-count">${items.length} ${items.length===1?'servicio':'servicios'}</span>
+        </div>
+        ${items.map(s => {
+          const visible = s.active !== false;
+          return `<article class="admin-service-row ${visible?'':'is-hidden'}">
+            <div class="admin-service-info">
+              <h3>${esc(s.name)} <span class="visibility-badge ${visible?'visible':'hidden'}">${visible?'VISIBLE':'OCULTO'}</span></h3>
+              <span class="admin-category">${esc(s.category)}</span>
+              <p>${esc(s.description)}</p>
+            </div>
+            <div class="admin-row-actions">
+              <button class="btn btn-ghost edit-service-btn" data-id="${s.id}">Editar</button>
+              <button class="btn ${visible?'btn-warn':'btn-success'} service-visibility-btn" data-id="${s.id}">${visible?'Ocultar':'Mostrar'}</button>
+            </div>
+          </article>`;
+        }).join('')}
+      </div>
+    `).join('');
+
+    box.querySelectorAll('.edit-service-btn').forEach(b => b.onclick = () => openServiceModal(Number(b.dataset.id)));
+    box.querySelectorAll('.service-visibility-btn').forEach(b => b.onclick = () => {
+      const item = (data.services || []).find(x => x.id === Number(b.dataset.id));
+      if(!item) return;
+      item.active = item.active === false;
+      save();
+      renderServices();
+    });
+  }
+
   const modal=document.getElementById('productModal');
   const form=document.getElementById('productForm');
   const preview=document.getElementById('imagePreview');
@@ -137,6 +186,48 @@
     save(); renderProducts(); modal.hidden=true;
   });
 
+  const serviceModal = document.getElementById('serviceModal');
+  const serviceForm = document.getElementById('serviceForm');
+
+  function openServiceModal(id=null){
+    editingServiceId = id;
+    serviceForm.reset();
+    document.getElementById('serviceModalTitle').textContent = id ? 'Editar servicio' : 'Nuevo servicio';
+    if(id){
+      const item = (data.services || []).find(s => s.id === id);
+      if(item){
+        serviceForm.elements.name.value = item.name || '';
+        serviceForm.elements.category.value = item.category || '';
+        serviceForm.elements.description.value = item.description || '';
+        serviceForm.elements.icon.value = item.icon || '';
+      }
+    }
+    serviceModal.hidden = false;
+  }
+
+  document.getElementById('newServiceBtn').onclick = () => openServiceModal();
+  document.getElementById('closeServiceModal').onclick = () => serviceModal.hidden = true;
+  document.getElementById('cancelService').onclick = () => serviceModal.hidden = true;
+
+  serviceForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const fd = new FormData(serviceForm);
+    const item = {
+      id: editingServiceId || Date.now(),
+      name: fd.get('name').trim(),
+      category: fd.get('category').trim(),
+      description: fd.get('description').trim(),
+      icon: fd.get('icon').trim() || '✓',
+      active: editingServiceId ? ((data.services || []).find(s => s.id === editingServiceId)?.active !== false) : true
+    };
+    data.services = data.services || [];
+    if(editingServiceId) data.services = data.services.map(s => s.id === editingServiceId ? item : s);
+    else data.services.unshift(item);
+    save();
+    renderServices();
+    serviceModal.hidden = true;
+  });
+
   function fillCompany(){
     const f=document.getElementById('companyForm');
     Object.entries(data.company||{}).forEach(([k,v])=>{if(f.elements[k])f.elements[k].value=v;});
@@ -162,7 +253,8 @@
       try{
         const imported=JSON.parse(reader.result);
         if(!Array.isArray(imported.products)||!imported.company) throw new Error();
-        data=imported; save(); renderProducts(); fillCompany(); alert('Datos importados correctamente.');
+        imported.services = Array.isArray(imported.services) ? imported.services : JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.services));
+        data=imported; save(); renderProducts(); renderServices(); fillCompany(); alert('Datos importados correctamente.');
       }catch(err){alert('El archivo no tiene un formato válido.');}
     };
     reader.readAsText(file);
@@ -171,8 +263,8 @@
   document.getElementById('resetBtn').onclick=()=>{
     if(confirm('Esto reemplazará los cambios guardados por los datos iniciales. ¿Continuar?')){
       data=getSiteData(); // si ya hay cambios, se conserva; luego restauramos de defaults
-      data={products:JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.products)),company:JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
-      save(); renderProducts(); fillCompany();
+      data={products:JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.products)), services:JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.services)), company:JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
+      save(); renderProducts(); renderServices(); fillCompany();
     }
   };
 })();

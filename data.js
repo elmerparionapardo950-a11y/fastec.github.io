@@ -217,6 +217,48 @@ const ANDESUR_DEFAULT_DATA = {
       "image": "https://images.unsplash.com/photo-1758577515371-b80dcd299490?auto=format&fit=crop&fm=jpg&q=82&w=1200"
     }
   ],
+  "services": [
+    {
+      "id": 101,
+      "name": "Instalación de equipos",
+      "category": "Instalación y puesta en marcha",
+      "description": "Instalación y puesta en funcionamiento de los equipos que lo requieren.",
+      "icon": "⚙",
+      "active": true
+    },
+    {
+      "id": 102,
+      "name": "Mantenimiento preventivo",
+      "category": "Mantenimiento y reparación",
+      "description": "Revisión preventiva para ayudar a conservar tus electrodomésticos en buenas condiciones.",
+      "icon": "◷",
+      "active": true
+    },
+    {
+      "id": 103,
+      "name": "Reparación y diagnóstico",
+      "category": "Mantenimiento y reparación",
+      "description": "Diagnóstico y atención técnica para equipos que presentan fallas.",
+      "icon": "✓",
+      "active": true
+    },
+    {
+      "id": 104,
+      "name": "Asesoría de productos",
+      "category": "Asesoría y soporte",
+      "description": "Orientación para elegir el equipo adecuado según tus necesidades y presupuesto.",
+      "icon": "i",
+      "active": true
+    },
+    {
+      "id": 105,
+      "name": "Soporte y uso",
+      "category": "Asesoría y soporte",
+      "description": "Acompañamiento para utilizar correctamente tus productos y resolver dudas.",
+      "icon": "?",
+      "active": true
+    }
+  ],
   "company": {
     "name": "Andesur",
     "email": "ventas@andesur.pe",
@@ -229,13 +271,13 @@ const ANDESUR_DEFAULT_DATA = {
 function getSiteData(){
   try {
     const saved = localStorage.getItem('andesur_site_data');
-    if(!saved) return {products: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.products)), company: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
+    if(!saved) return {products: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.products)), services: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.services)), company: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
     const parsed = JSON.parse(saved);
     const defaultsById = Object.fromEntries((ANDESUR_DEFAULT_DATA.products || []).map(p => [p.id, p]));
     parsed.products = (parsed.products || []).map(p => ({...p, image: p.image || defaultsById[p.id]?.image || ''}));
-    return {products: parsed.products, company: parsed.company || JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
+    return {products: parsed.products, services: parsed.services || JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.services)), company: parsed.company || JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
   } catch(e) {
-    return {products: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.products)), company: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
+    return {products: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.products)), services: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.services)), company: JSON.parse(JSON.stringify(ANDESUR_DEFAULT_DATA.company))};
   }
 }
 
