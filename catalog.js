@@ -9,23 +9,22 @@
   function card(p){
     const image = p.image
       ? `<img src="${p.image}" alt="${esc(p.name)}" loading="lazy">`
-      : `<div class="product-placeholder"><span>ANDESUR</span><small>${esc(p.category)}</small></div>`;
-    const price = p.price ? `<strong class="product-price">S/ ${esc(p.price)}</strong>` : '';
-    const old = p.oldPrice ? `<del>S/ ${esc(p.oldPrice)}</del>` : '';
-    const offer = p.offer ? `<span class="product-badge">${esc(p.offer)}</span>` : '';
-    return `<article class="catalog-card live-product-card" data-product-name="${esc(p.name)}" role="button" tabindex="0" title="Comprar ${esc(p.name)} por WhatsApp">
-      ${offer}
+      : `<div class="product-placeholder"><span>FASTEC</span><small>Imagen pendiente</small></div>`;
+    const stock = p.stock !== '' && p.stock !== null && p.stock !== undefined
+      ? `<span class="product-stock">Stock: ${esc(p.stock)}</span>`
+      : `<span class="product-stock">Stock: —</span>`;
+    return `<article class="catalog-card live-product-card" data-product-name="${esc(p.name)}" role="button" tabindex="0" title="Consultar ${esc(p.name)} por WhatsApp">
       <div class="catalog-photo live-photo">${image}</div>
       <span class="catalog-name">${esc(p.name)}</span>
       <span class="catalog-model">${esc(p.model)}</span>
-      <div class="product-prices">${old}${price}</div>
+      ${stock}
     </article>`;
   }
 
   const WHATSAPP_NUMBER = '51963925684';
 
   function openWhatsApp(productName){
-    const message = `Hola, quiero comprar este producto: ${productName}`;
+    const message = `Hola, quiero consultar por este producto: ${productName}`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener');
   }
@@ -52,8 +51,8 @@
     const filters = document.createElement('div');
     filters.className = 'category-filters';
     filters.innerHTML =
-      `<button type="button" class="category-filter active" data-category="all">Todos</button>` +
-      categories.map(cat => `<button type="button" class="category-filter" data-category="${esc(cat)}">${esc(cat)}</button>`).join('');
+      `<button type="button" class="category-filter active" data-category="all">Todos (${products.length})</button>` +
+      categories.map(cat => `<button type="button" class="category-filter" data-category="${esc(cat)}">${esc(cat)} (${groups[cat].length})</button>`).join('');
 
     const sections = document.createElement('div');
     sections.className = 'catalog-sections';
@@ -86,9 +85,8 @@
 
   const featured = document.getElementById('featuredProducts');
   if(featured){
-    const items = products.filter(p => p.featured).slice(0,6);
-    featured.innerHTML = items.length ? items.map(card).join('') :
-      '<p class="empty-state">No hay productos destacados configurados.</p>';
-    bindProductCards(featured);
+    featured.innerHTML = '';
+    const offersSection = featured.closest('.offers');
+    if(offersSection) offersSection.hidden = true;
   }
 })();

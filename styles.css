@@ -1251,3 +1251,10 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   .main-nav a{padding:12px 14px;border-radius:6px;}
   .main-nav a:hover,.main-nav a.active{background:rgba(64,85,72,.08);}
 }
+
+
+/* Inventario: stock */
+.product-stock{display:block;margin-top:8px;font-size:.82rem;font-weight:600;opacity:.8;}
+.product-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;gap:6px;}
+.product-placeholder span{font-weight:700;letter-spacing:.08em;}
+.product-placeholder small{opacity:.65;}
