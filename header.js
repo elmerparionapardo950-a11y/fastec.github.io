@@ -5,7 +5,7 @@
   <div class="wrap header-inner">
     <a href="index.html" class="brand" aria-label="FASTEC - Inicio">
       <span class="brand-mark">
-        <img src="img/logo.png" alt="">
+        <img src="img/logo2.png" alt="">
       </span>
       <span class="brand-name"></span>
     </a>
