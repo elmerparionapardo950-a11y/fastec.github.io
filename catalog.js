@@ -13,13 +13,34 @@
     const price = p.price ? `<strong class="product-price">S/ ${esc(p.price)}</strong>` : '';
     const old = p.oldPrice ? `<del>S/ ${esc(p.oldPrice)}</del>` : '';
     const offer = p.offer ? `<span class="product-badge">${esc(p.offer)}</span>` : '';
-    return `<article class="catalog-card live-product-card">
+    return `<article class="catalog-card live-product-card" data-product-name="${esc(p.name)}" role="button" tabindex="0" title="Comprar ${esc(p.name)} por WhatsApp">
       ${offer}
       <div class="catalog-photo live-photo">${image}</div>
       <span class="catalog-name">${esc(p.name)}</span>
       <span class="catalog-model">${esc(p.model)}</span>
       <div class="product-prices">${old}${price}</div>
     </article>`;
+  }
+
+  const WHATSAPP_NUMBER = '51963925684';
+
+  function openWhatsApp(productName){
+    const message = `Hola, quiero comprar este producto: ${productName}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener');
+  }
+
+  function bindProductCards(root){
+    root.querySelectorAll('.live-product-card').forEach(card => {
+      const productName = card.dataset.productName || '';
+      card.addEventListener('click', () => openWhatsApp(productName));
+      card.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          openWhatsApp(productName);
+        }
+      });
+    });
   }
 
   const catalog = document.getElementById('liveCatalog');
@@ -49,6 +70,7 @@
     catalog.innerHTML = '';
     catalog.appendChild(filters);
     catalog.appendChild(sections);
+    bindProductCards(catalog);
 
     filters.querySelectorAll('.category-filter').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -67,5 +89,6 @@
     const items = products.filter(p => p.featured).slice(0,6);
     featured.innerHTML = items.length ? items.map(card).join('') :
       '<p class="empty-state">No hay productos destacados configurados.</p>';
+    bindProductCards(featured);
   }
 })();

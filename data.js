@@ -262,7 +262,7 @@ const ANDESUR_DEFAULT_DATA = {
   "company": {
     "name": "Andesur",
     "email": "ventas@andesur.pe",
-    "phone": "+51 999 999 999",
+    "phone": "+51 963 925 684",
     "address": "Jr. Real 480, Huancayo, Junín — Perú",
     "description": "Electrodomésticos con garantía real y servicio técnico propio."
   }

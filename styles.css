@@ -199,16 +199,29 @@ p{margin:0;}
   justify-content:space-between;
   height:74px;
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
-.brand-mark{ color:var(--green-dark); display:flex; }
-.brand-name{
-  font-family:var(--font-display);
-  font-size:26px;
-  font-weight:700;
+
+.brand-mark {
+  width: 170px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.brand-mark img {
+  width: 170px;
+  height: 170px;
+  max-width: 170px;
+  max-height: 170px;
+  object-fit: contain;
+  display: block;
 }
 .main-nav{
   display:flex;
@@ -672,6 +685,33 @@ p{margin:0;}
 .store-list strong{ color:var(--ink); margin-right:6px; }
 .location-visual{ color:var(--green-dark); max-width:220px; margin:0 auto; }
 
+
+/* Mapa de Google ancho en Contacto */
+.contact-map-wide{
+  margin-top:48px;
+}
+.contact-map-heading{
+  margin-bottom:18px;
+}
+.contact-map-frame{
+  width:100%;
+  height:390px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.contact-map-frame iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+.contact-map-link{
+  margin-top:12px;
+}
+
 /* ===== Footer ===== */
 .site-footer{
   background:var(--ink);
@@ -707,6 +747,29 @@ p{margin:0;}
   color:#B8C0BB;
 }
 .footer-col a:hover{ color:#fff; }
+
+.footer-map-frame{
+  width:100%;
+  max-width:360px;
+  height:170px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:10px;
+  background:#fff;
+}
+.footer-map-frame iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+.map-link{
+  display:inline-block !important;
+  margin-top:9px;
+  font-size:13px !important;
+  color:rgba(255,255,255,.82) !important;
+}
+.map-link:hover{ color:#fff !important; }
 .news-form{
   display:flex;
   gap:8px;
@@ -776,8 +839,9 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   .location-grid{ grid-template-columns:1fr; }
   .location-visual{ display:none; }
   .footer-grid{ grid-template-columns:1fr 1fr; }
-}
-@media (max-width:680px){
+}@media (max-width:680px){
+  .contact-map-wide{ margin-top:38px; }
+  .contact-map-frame{ height:300px; border-radius:10px; }
   .cover-data{ gap:20px 30px; }
   .cover-data-item{ min-width:80px; }
   .product-tooltip{ min-width:160px; font-size:12px; }
@@ -1153,4 +1217,37 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   .category-filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;}
   .category-filter{white-space:nowrap;}
   .admin-service-row{grid-template-columns:1fr;}
+}
+
+/* ===== Compra por WhatsApp al hacer clic en un producto ===== */
+.live-product-card{
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.live-product-card:hover,
+.live-product-card:focus-visible{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,.10);
+  border-color:var(--green-dark);
+  outline:none;
+}
+
+
+/* ===== Encabezado compartido ===== */
+.brand-name{display:inline-block;font-weight:700;letter-spacing:.5px;margin-left:8px;}
+.main-nav a.active{color:var(--ink);font-weight:700;}
+@media (max-width: 768px){
+  .header-inner{height:68px;}
+  .brand-mark,.brand-mark img{width:38px;height:38px;max-width:38px;max-height:38px;}
+  .brand-name{font-size:16px;}
+  .nav-toggle{display:flex;}
+  .main-nav{
+    position:absolute;left:16px;right:16px;top:calc(100% + 8px);
+    display:none;flex-direction:column;align-items:stretch;gap:0;
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:8px;padding:8px;box-shadow:0 15px 35px rgba(0,0,0,.12);
+  }
+  .main-nav.open{display:flex;}
+  .main-nav a{padding:12px 14px;border-radius:6px;}
+  .main-nav a:hover,.main-nav a.active{background:rgba(64,85,72,.08);}
 }

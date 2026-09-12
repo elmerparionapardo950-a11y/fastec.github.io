@@ -10,35 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" width="34" height="34"><rect x="6" y="4" width="28" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><line x1="6" y1="16" x2="34" y2="16" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="26" r="5.5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="11" cy="10" r="1.6" fill="currentColor"/></svg>
-      </span>
-      <span class="brand-name">Andesur</span>
-    </a>
-    <nav class="main-nav" id="mainNav">
-      <a href="index.html" class="">Inicio</a>
-      <a href="nosotros.html" class="">Nosotros</a>
-      <a href="productos.html" class="">Productos</a>
-      <a href="servicios.html" class="">Servicios</a>
-      <a href="contacto.html" class="active">Contacto</a>
-    </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+<div id="sharedHeader"></div>
 <main>
-
-<section class="page-hero page-hero-small">
-  <div class="wrap page-hero-inner">
-    <p class="kicker">Información de la empresa</p>
-    <h1>Contacto</h1>
-    <p>En esta página se concentra la información de contacto, atención y ubicación de Andesur.</p>
-  </div>
-</section>
 
 <section class="location">
   <div class="wrap location-grid">
@@ -47,23 +20,16 @@
       <h2>Estamos para atenderte</h2>
       <ul class="store-list">
         <li><strong>Correo</strong> — <a href="mailto:ventas@andesur.pe"><span id="footerEmail">ventas@andesur.pe</span></a></li>
-        <li><strong>Teléfono</strong> — <a href="tel:+51999999999"><span id="footerPhone">+51 999 999 999</span></a></li>
+        <li><strong>Teléfono</strong> — <a href="tel:+51963925684"><span id="footerPhone">+51 963 925 684</span></a></li>
         <li><strong>Sede central</strong> — Jr. Real 480, Huancayo, Junín — Perú</li>
         <li><strong>Tiendas</strong> — Huancayo, Lima y Trujillo, además de presencia en otras regiones.</li>
       </ul>
-      <a href="https://wa.me/51999999999?text=Hola%2C%20quiero%20consultar%20por%20un%20equipo" class="btn btn-primary">Escribir por WhatsApp</a>
-    </div>
-    <div class="location-visual" aria-hidden="true">
-      <svg viewBox="0 0 220 320" width="100%" height="100%">
-        <path d="M110 8 L150 40 L160 90 L190 130 L175 190 L150 240 L160 280 L120 312 L90 300 L70 260 L45 220 L55 170 L30 120 L55 70 L80 40 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-        <circle cx="95" cy="230" r="6" class="dot dot-main"/>
-        <circle cx="150" cy="180" r="5" class="dot"/>
-        <circle cx="65" cy="150" r="5" class="dot"/>
-      </svg>
+      <a href="https://wa.me/51963925684?text=Hola%2C%20quiero%20consultar%20por%20un%20equipo" class="btn btn-primary">Escribir por WhatsApp</a>
     </div>
   </div>
 </section>
 
+<!-- Información de atención -->
 <section class="info-section contact-extra">
   <div class="wrap">
     <div class="section-head"><p class="kicker">Datos de atención</p><h2>Toda la información en un solo lugar</h2></div>
@@ -74,6 +40,24 @@
     </div>
   </div>
 </section>
+
+<!-- Mapa de Google antes del footer -->
+<div class="wrap contact-map-wide">
+  <div class="contact-map-heading">
+    <p class="kicker">Nuestra ubicación</p>
+    <h2>Encuéntranos en el mapa</h2>
+  </div>
+  <div class="contact-map-frame">
+    <iframe
+      src="https://www.google.com/maps?q=-10.927586179299054,-74.87402791747887&z=17&output=embed"
+      title="Ubicación de Andesur"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <a class="map-link contact-map-link" href="https://www.google.com/maps?q=-10.927586179299054,-74.87402791747887" target="_blank" rel="noopener">Ver ubicación en Google Maps</a>
+</div>
 
 </main>
 <footer class="site-footer">
@@ -98,7 +82,7 @@
     <div class="footer-col">
       <h4>Contacto</h4>
       <a href="mailto:ventas@andesur.pe"><span id="footerEmail">ventas@andesur.pe</span></a>
-      <a href="tel:+51999999999"><span id="footerPhone">+51 999 999 999</span></a>
+      <a href="tel:+51963925684"><span id="footerPhone">+51 963 925 684</span></a>
       <span>Jr. Real 480, Huancayo</span>
     </div>
     <div class="footer-col footer-news">
@@ -115,6 +99,7 @@
   </div>
 </footer>
 <script src="footer-data.js"></script>
+<script src="header.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
